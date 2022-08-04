@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/providers/places_provider.dart';
+import 'package:places/screens/add_place_screen.dart';
+import 'package:places/screens/places_list_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,17 +20,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const HomePage(),
+        home: const PlacesListScreen(),
+        routes: {
+          AddPlaceScreen.routeName: (context) => const AddPlaceScreen()
+        },
+
       ),
     );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
