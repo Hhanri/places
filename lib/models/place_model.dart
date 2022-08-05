@@ -11,6 +11,6 @@ class PlaceModel {
   final String id;
   final String title;
   final File image;
-  final Location location;
-  PlaceModel({required this.id, required this.title, required this.image, required this.location});
+  final Location? location;
+  PlaceModel({required this.id, required this.title, required this.image, this.location});
 }
