@@ -25,6 +25,7 @@ class PlaceListTileWidget extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(backgroundImage: FileImage(place.image),),
       title: Text(place.title),
+      subtitle: Text(place.location.address ?? ""),
       onTap: () {},
     );
   }

@@ -11,18 +11,26 @@ class PlaceModel {
   final String id;
   final String title;
   final File image;
-  final PlaceLocation? location;
-  PlaceModel({required this.id, required this.title, required this.image, this.location});
+  final PlaceLocation location;
+  PlaceModel({required this.id, required this.title, required this.image, required this.location});
 
   static Map<String, dynamic> toMap(PlaceModel place) {
     return {
       'id': place.id,
       'title': place.title,
-      'image': place.image.path
+      'image': place.image.path,
+      'loc_lat': place.location.latitude,
+      'loc_lng': place.location.longitude,
+      'address': place.location.address
     };
   }
 
   factory PlaceModel.fromMap(Map<String, dynamic> data) {
-    return PlaceModel(id: data['id'], title: data['title'], image: File(data['image']));
+    return PlaceModel(
+      id: data['id'],
+      title: data['title'],
+      image: File(data['image']),
+      location: PlaceLocation(latitude: data['loc_lat'], longitude: data['loc_lng'], address: data['address'])
+    );
   }
 }

@@ -5,7 +5,8 @@ import 'package:places/helpers/location_helper.dart';
 import 'package:places/screens/map_screen.dart';
 
 class LocationInputWidget extends StatefulWidget {
-  const LocationInputWidget({Key? key}) : super(key: key);
+  final Function(LatLng) onSelectLocation;
+  const LocationInputWidget({Key? key, required this.onSelectLocation}) : super(key: key);
 
   @override
   State<LocationInputWidget> createState() => _LocationInputWidgetState();
@@ -15,12 +16,21 @@ class _LocationInputWidgetState extends State<LocationInputWidget> {
 
   String? _previewImageUrl;
 
+  void _showPreview(LatLng location) {
+    try {
+      final staticMapUrl = LocationHelper.generateLocationPreviewImage(latitude: location.latitude, longitude: location.longitude);
+      setState(() {
+        _previewImageUrl = staticMapUrl;
+      });
+      widget.onSelectLocation(LatLng(location.latitude, location.longitude));
+    } catch(error) {
+      print(error);
+    }
+  }
+
   Future<void> _getCurrentLocation() async {
-    final location = await Location().getLocation();
-    final staticMapUrl = LocationHelper.generateLocationPreviewImage(latitude: location.latitude!, longitude: location.longitude!);
-    setState(() {
-      _previewImageUrl = staticMapUrl;
-    });
+    final LocationData location = await Location().getLocation();
+    _showPreview(LatLng(location.latitude!, location.longitude!));
   }
 
   Future<void> _selectFromMap() async {
@@ -28,7 +38,7 @@ class _LocationInputWidgetState extends State<LocationInputWidget> {
       MaterialPageRoute(builder: (context) => const MapScreen(isSelecting: true,))
     );
     if (selectedLocation != null) {
-      
+      _showPreview(selectedLocation);
     }
   }
 
