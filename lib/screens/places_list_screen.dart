@@ -19,12 +19,20 @@ class PlacesListScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Consumer<PlacesProvider>(
-        builder: (context, places, child) {
-          if (places.places.isEmpty) return child!;
-          return PlacesListViewWidget(places: places.places);
-        },
-        child: const Center(child: Text("Got no places yet"),),
+      body: FutureBuilder<void>(
+        future: context.read<PlacesProvider>().fetchPlaces(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator(),);
+          }
+          return Consumer<PlacesProvider>(
+            builder: (context, places, child) {
+              if (places.places.isEmpty) return child!;
+              return PlacesListViewWidget(places: places.places);
+            },
+            child: const Center(child: Text("Got no places yet"),),
+          );
+        }
       ),
     );
   }

@@ -13,4 +13,16 @@ class PlaceModel {
   final File image;
   final Location? location;
   PlaceModel({required this.id, required this.title, required this.image, this.location});
+
+  static Map<String, dynamic> toMap(PlaceModel place) {
+    return {
+      'id': place.id,
+      'title': place.title,
+      'image': place.image.path
+    };
+  }
+
+  factory PlaceModel.fromMap(Map<String, dynamic> data) {
+    return PlaceModel(id: data['id'], title: data['title'], image: File(data['image']));
+  }
 }
