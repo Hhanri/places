@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:places/helpers/location_helper.dart';
+import 'package:places/screens/map_screen.dart';
 
 class LocationInputWidget extends StatefulWidget {
   const LocationInputWidget({Key? key}) : super(key: key);
@@ -21,6 +22,14 @@ class _LocationInputWidgetState extends State<LocationInputWidget> {
     });
   }
 
+  Future<void> _selectFromMap() async {
+    final selectedLocation = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const MapScreen(isSelecting: true,))
+    );
+    if (selectedLocation != null) {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,7 @@ class _LocationInputWidgetState extends State<LocationInputWidget> {
               label: const Text("Current Location")
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _selectFromMap,
               icon: const Icon(Icons.map),
               label: const Text("Select from map")
             )
