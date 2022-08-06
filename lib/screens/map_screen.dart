@@ -21,6 +21,18 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+  Set<Marker> getMarkers() {
+    if (_pickedLocation == null && widget.isSelecting) {
+      return {};
+    }
+    return {
+      Marker(
+        markerId: const MarkerId('selected'),
+        position: _pickedLocation ?? PlaceLocation.toLatLng(widget.initialCameraPosition)
+      )
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +48,7 @@ class _MapScreenState extends State<MapScreen> {
       body: GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(widget.initialCameraPosition.latitude, widget.initialCameraPosition.longitude), zoom: 12),
         onTap: widget.isSelecting ? _selectLocation : null,
-        markers: {
-          if (_pickedLocation != null) Marker(markerId: const MarkerId('selected'), position: _pickedLocation!)
-        },
+        markers: getMarkers(),
       ),
     );
   }

@@ -11,6 +11,8 @@ class PlacesProvider with ChangeNotifier {
 
   List<PlaceModel> get places => [..._places];
 
+  PlaceModel findById(String id) => places.firstWhere((element) => element.id == id);
+
   Future<void> addPlace({required String title, required File image, required PlaceLocation location}) async {
     final String address = await LocationHelper.getPlaceAddress(LatLng(location.latitude, location.longitude));
     final PlaceLocation updatedLocation = PlaceLocation(latitude: location.latitude, longitude: location.longitude, address: address);

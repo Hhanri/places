@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:places/models/place_model.dart';
+import 'package:places/screens/place_detail_screen.dart';
 
 class PlacesListViewWidget extends StatelessWidget {
   final List<PlaceModel> places;
@@ -26,7 +27,9 @@ class PlaceListTileWidget extends StatelessWidget {
       leading: CircleAvatar(backgroundImage: FileImage(place.image),),
       title: Text(place.title),
       subtitle: Text(place.location.address ?? ""),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(PlaceDetailScreen.routeName, arguments: place.id);
+      },
     );
   }
 }
